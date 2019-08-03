@@ -3,13 +3,16 @@ package com.example.file.common;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.PutObjectResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.rmi.runtime.Log;
 
 import java.io.File;
 
 @Service
+@Slf4j
 public class AliyunOssServiceImpl implements AliyunOssService {
 
     @Autowired
@@ -20,8 +23,15 @@ public class AliyunOssServiceImpl implements AliyunOssService {
     @Override
     public String uploadFileToAliOss(File file,String originalFileName) {
 
+        log.info("====================test=================");
+//        log.info(systemConfigService.toString());
+
+
         // get the aliyun oos config from db
         SystemConfig systemConfig = systemConfigService.getSystemConfigById(1);
+        log.info(systemConfigService.getSystemConfigById(1).toString());
+
+        log.info("is to systemConfigService");
         //文件上传至oss平台
         // Endpoint以杭州为例，其它Region请按实际情况填写。
 //        String endpoint = "http://oss-cn-shenzhen.aliyuncs.com";
@@ -44,6 +54,6 @@ public class AliyunOssServiceImpl implements AliyunOssService {
         // 关闭OSSClient。
         ossClient.shutdown();
 
-        return null;
+        return "123";
     }
 }

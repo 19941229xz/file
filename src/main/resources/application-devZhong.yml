@@ -17,7 +17,7 @@ pagehelper:
 
 spring:
   application:
-    name: message-server
+    name: file-server
   cloud:
     inetutils:
       default-ip-address: 39.108.127.117
@@ -28,7 +28,7 @@ spring:
     password:
     timeout: 5000
   datasource:
-    url: jdbc:mysql://39.108.127.117:3306/Architecture_design?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost/file_server?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -48,7 +48,9 @@ spring:
       max-pool-prepared-statement-per-connection-size: 20
 
 app:
-  imgPath: /root/javaPro/img/
+  imgPath: D:/img/
+#  filePath: D:/img/
+  filePath: /root/javaPro/img/
   info: 在线文档
   author: BitC
   email: 276819708@qq.com

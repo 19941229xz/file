@@ -1,9 +1,11 @@
 package com.example.file.common;
 
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 
+@Service
 public class FileUtilServiceImpl implements FileUtilService {
 
     @Async
