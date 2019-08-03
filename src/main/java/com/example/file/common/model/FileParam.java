@@ -6,7 +6,7 @@ import javax.validation.constraints.NotEmpty;
 
 /**
  * @program: file
- * @description: 文件实体类
+ * @description: 上传文件参数封装实体类
  * @author: BitCoc
  * @create: 2019-08-02 16:33
  */

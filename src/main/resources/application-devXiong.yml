@@ -23,14 +23,14 @@ spring:
       default-ip-address: 60.205.212.112
   redis:
     database: 0
-    host: localhost
-    port: 6379
-    password: root
+    host: 60.205.212.112
+    port: 6380
+    password: 19971002wy
     timeout: 5000
   datasource:
-    url: jdbc:mysql://39.108.127.117:3306/Architecture_design?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://60.205.212.112:3307/file_server?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
     username: root
-    password: 123456
+    password: 19971002wy
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
       filters: stat,wall,slf4j,config
@@ -48,7 +48,8 @@ spring:
       max-pool-prepared-statement-per-connection-size: 20
 
 app:
-  imgPath: /root/JavaPro/img/
+  imgPath: D:/img/
+  filePath: D:/img/
   info: 在线文档
   author: BitC
   email: 276819708@qq.com

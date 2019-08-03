@@ -3,6 +3,7 @@ package com.example.file.common.upload;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.model.PutObjectResult;
 import com.example.file.common.DeleteFileUtil;
 import com.example.file.common.failJwtUtil;
 import com.example.file.common.MyResponse;
@@ -20,9 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
-@RestController
+//@RestController
 @RequestMapping("upload")
-@CrossOrigin
 @Slf4j
 public class UploadController {
 
@@ -86,7 +86,7 @@ public class UploadController {
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
         // 上传文件。<yourLocalFile>由本地文件路径加文件名包括后缀组成，例如/users/local/myfile.txt。
-        ossClient.putObject("vp-saas-common",newFileName , new File(imgPath+fileName));
+        PutObjectResult res= ossClient.putObject("vp-saas-common",newFileName , new File(imgPath+fileName));
 //        ossClient.putObject("vp-saas-common", "img-zhong", new File("file:///"+"D:/img/"));
 
         // 关闭OSSClient。

@@ -34,4 +34,15 @@ public class SystemConfig {
     private String swaggerDescription;
     private String swaggerTermsOfServiceUrl;
 
+
+    /**
+     * 阿里云对象存储相关参数
+     */
+    private int id;
+    private String endpoint;
+    private String accessKeyId;
+    private String accessKeySecret;
+    private String bucketName;
+
+
 }

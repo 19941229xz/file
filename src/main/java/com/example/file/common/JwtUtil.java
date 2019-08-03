@@ -14,6 +14,26 @@ public class JwtUtil {
 
     private static final long expire_time = 5 * 60 * 1000; //五分钟内有效
 
+    private static final String fileKey = "xiong"; //
+
+    //解码emailToken 获取邮箱地址
+    public static String getFileNamefromFileToken(String fileToken){
+        try {
+            DecodedJWT jwt = JWT.decode(fileToken);
+            return jwt.getClaim("fileName").asString();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    //获取文件上传token
+    public static String createFileToken(String fileName){
+        Date date = new Date(System.currentTimeMillis() + expire_time);
+        //Todo 暂时写死后期再修改成定期刷新  从数据库获取
+        Algorithm algorithm = Algorithm.HMAC256(fileKey);
+        return JWT.create().withClaim("fileName", fileName)
+                .withExpiresAt(date).sign(algorithm);
+    }
+
     //通过邮箱 邮箱内容 和后台私钥 生成emailToken
     public static String createEmailToken(String email, String content, String privateKey,String title) {
         //过期时间

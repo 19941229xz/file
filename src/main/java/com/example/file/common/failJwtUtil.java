@@ -17,19 +17,21 @@ public class failJwtUtil {
 
 
     //通过图片名称获取imgToken
-    public static String createfileToken(String img) {
+    public static String createfileToken(String fileName) {
 
 
-        File file = new File("/root/javaPro/key.txt");
-//        File file = new File("file:///"+"D:/img/key.txt");
+//        File file = new File("/root/javaPro/key.txt");
+////        File file = new File("file:///"+"D:/img/key.txt");
+//
+//       String privateKey = ReadTheFile.getfiletxt(file);
 
-       String privateKey = ReadTheFile.getfiletxt(file);
 
 
         //过期时间
         Date date = new Date(System.currentTimeMillis() + expire_time);
-        Algorithm algorithm = Algorithm.HMAC256(privateKey);
-        return JWT.create().withClaim("img", img).withExpiresAt(date).sign(algorithm);
+        //Todo need to get it from db  and refresh interval
+        Algorithm algorithm = Algorithm.HMAC256("testKey");
+        return JWT.create().withClaim("fileName", fileName).withExpiresAt(date).sign(algorithm);
     }
 
 
@@ -37,7 +39,7 @@ public class failJwtUtil {
     public static String getContentfromImgToken(String emailToken){
         try {
             DecodedJWT jwt = JWT.decode(emailToken);
-            return jwt.getClaim("img").asString();
+            return jwt.getClaim("fileName").asString();
         } catch (Exception e) {
             return null;
         }
