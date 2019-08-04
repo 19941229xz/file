@@ -1,9 +1,6 @@
 package com.example.file.common;
 
 
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClientBuilder;
-import com.aliyun.oss.model.PutObjectResult;
 import com.example.file.common.model.FileParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +30,7 @@ public class FileController {
 
     @PostMapping("/uploadFile")
     public Object getFileToken(@RequestBody FileParam fileParam){
-        return MyRsp.success(JwtUtil.createFileToken(fileParam.getFileName()));
+        return MyRsp.success(JwtUtil.createFileToken(fileParam.getFileName())).msg("Token获取成功");
     }
 
 
@@ -65,21 +62,22 @@ public class FileController {
                 }
                 MyRsp.success(oringinFileName).msg("本地服务器上传成功");
             }
-log.info("==========================test==========================");
-
-            log.info(new File(filePath + oringinFileName).toString());
-            log.info(oringinFileName);
 
 
-            aliyunOssService.uploadFileToAliOss(new File(filePath + oringinFileName),oringinFileName);
+            String newfilePath = aliyunOssService.uploadFileToAliOss(new File(filePath + oringinFileName),oringinFileName);
 
-            fileUtilService.delFile(new File(filePath + oringinFileName).toString());
+            if(!newfilePath.equals("false")){
 
+                fileUtilService.delFile(new File(filePath + oringinFileName).toString());
 
+                return MyRsp.success(newfilePath).msg("文件上传成功");
+            }else{
+                return MyRsp.error().msg("文件选择错误");
+            }
 
         }
 
-        return MyRsp.success(null);
+        return MyRsp.error().msg("文件上传错误");
     }
 
 

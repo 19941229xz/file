@@ -3,13 +3,17 @@ package com.example.file.common;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.PutObjectResult;
+import jdk.nashorn.internal.runtime.options.LoggingOption;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.nio.cs.FastCharsetProvider;
 import sun.rmi.runtime.Log;
 
 import java.io.File;
+import java.net.URL;
+import java.util.Date;
 
 @Service
 @Slf4j
@@ -23,15 +27,10 @@ public class AliyunOssServiceImpl implements AliyunOssService {
     @Override
     public String uploadFileToAliOss(File file,String originalFileName) {
 
-        log.info("====================test=================");
-//        log.info(systemConfigService.toString());
-
 
         // get the aliyun oos config from db
         SystemConfig systemConfig = systemConfigService.getSystemConfigById(1);
-        log.info(systemConfigService.getSystemConfigById(1).toString());
 
-        log.info("is to systemConfigService");
         //文件上传至oss平台
         // Endpoint以杭州为例，其它Region请按实际情况填写。
 //        String endpoint = "http://oss-cn-shenzhen.aliyuncs.com";
@@ -45,15 +44,32 @@ public class AliyunOssServiceImpl implements AliyunOssService {
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
+        String currentTime = System.currentTimeMillis()+"";
+
         // 上传文件。<yourLocalFile>由本地文件路径加文件名包括后缀组成，例如/users/local/myfile.txt。
-        PutObjectResult res = ossClient.putObject("vp-saas-common", System.currentTimeMillis()+originalFileName, file);
+        PutObjectResult res = ossClient.putObject("vp-saas-common", currentTime+originalFileName, file);
 //        ossClient.putObject("vp-saas-common", "img-zhong", new File("file:///"+"D:/img/"));
 
-        //Todo 对PutObjectResult进行校验  看是否上传成功  并且返回文件访问路径
+       if(res.getETag()!=null){
+           // 关闭OSSClient。
+           ossClient.shutdown();
+           //Todo  后续可改进写活
+           return "https://vp-saas-common.oss-cn-shenzhen.aliyuncs.com/"+currentTime+originalFileName;
 
-        // 关闭OSSClient。
-        ossClient.shutdown();
+       }else {
+           // 关闭OSSClient。
+           ossClient.shutdown();
+           return "false";
+       }
 
-        return "123";
+//        log.info(res.getVersionId());
+////        log.info(res.get);
+//
+//        Date expiration = new Date(new Date().getTime() + 3600 * 1000);// 生成URL
+//        URL url = ossClient.generatePresignedUrl(systemConfig.getBucketName(), accessKeyId, expiration);
+
+
+
+
     }
 }

@@ -14,7 +14,8 @@ public class JwtUtil {
 
     private static final long expire_time = 5 * 60 * 1000; //五分钟内有效
 
-    private static final String fileKey = "xiong"; //
+    private static final String fileKey = "xiong";
+    //TODO 改为数据库动态提取
 
     //解码emailToken 获取邮箱地址
     public static String getFileNamefromFileToken(String fileToken){
